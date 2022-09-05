@@ -5,10 +5,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from core import models
+from core.models import User, Recipe
 
 
-@admin.register(models.User)
+@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     """Define the Admin Pages for users"""
     ordering = ['id']
@@ -53,3 +53,8 @@ class UserAdmin(BaseUserAdmin):
             )
         }),
     )
+
+
+@admin.register(Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'price']

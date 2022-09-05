@@ -2,6 +2,7 @@
     DataBase Models.
 """
 
+from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.db import models
@@ -40,3 +41,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class Recipe(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("User"),
+        on_delete=models.CASCADE,
+        )
+    title = models.CharField(_("Title"), max_length=250)
+    time_minutes = models.IntegerField(_("Time in minutes"))
+    price = models.DecimalField(_("Price"), max_digits=5, decimal_places=2)
+    description = models.TextField(_("Description"), blank=True)
+    link = models.CharField(_("Link"), max_length=250, blank=True)
+
+    class Meta:
+        verbose_name = _("Recipe")
+        verbose_name_plural = _("Recipes")
+
+    def __str__(self):
+        return self.title
